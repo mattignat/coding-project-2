@@ -30,10 +30,34 @@ async function fetchProductsAsync() {
 // Function to display products
 function displayProducts(products) {
     console.log('Displaying products:', products);
-    // Product display logic will be added here
+    
+    // Select the product container
+    const productContainer = document.getElementById('product-container');
+    
+    // Clear any existing content
+    productContainer.innerHTML = '';
+    
+    // Loop through the first 5 products
+    const firstFiveProducts = products.slice(0, 5);
+    
+    firstFiveProducts.forEach(product => {
+        // Create product card element
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card';
+        
+        // Create and set product content
+        productCard.innerHTML = `
+            <img src="${product.fields.image[0].url}" alt="${product.fields.name}" class="product-image">
+            <h3 class="product-name">${product.fields.name}</h3>
+            <p class="product-price">$${(product.fields.price / 100).toFixed(2)}</p>
+        `;
+        
+        // Append to container
+        productContainer.appendChild(productCard);
+    });
 }
 
 // Function to handle errors
 function handleError(error) {
-    console.error('Error fetching products:', error);
+    console.error(`An error occurred: ${error.message}`);
 }
